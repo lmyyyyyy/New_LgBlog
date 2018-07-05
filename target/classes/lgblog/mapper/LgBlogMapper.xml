@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="me.lgblog.mapper.LgBlogMapper" >
+  <resultMap id="BaseResultMap" type="me.lgblog.pojo.LgBlog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="blog_title" property="blogTitle" jdbcType="VARCHAR" />
+    <result column="blog_author" property="blogAuthor" jdbcType="VARCHAR" />
+    <result column="blog_picture" property="blogPicture" jdbcType="VARCHAR" />
+    <result column="blog_type" property="blogType" jdbcType="VARCHAR" />
+    <result column="blog_desc" property="blogDesc" jdbcType="VARCHAR" />
+    <result column="blog_createTime" property="blogCreatetime" jdbcType="TIMESTAMP" />
+    <result column="blog_reply_count" property="blogReplyCount" jdbcType="INTEGER" />
+    <result column="blog_upvote_count" property="blogUpvoteCount" jdbcType="INTEGER" />
+    <result column="blog_click_count" property="blogClickCount" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="me.lgblog.pojo.LgBlog" extends="BaseResultMap" >
+    <result column="blog_content" property="blogContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, blog_title, blog_author, blog_picture, blog_type, blog_desc, blog_createTime, 
+    blog_reply_count, blog_upvote_count, blog_click_count
+  </sql>
+  <sql id="Blob_Column_List" >
+    blog_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="me.lgblog.pojo.LgBlogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from lg_blog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="me.lgblog.pojo.LgBlogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from lg_blog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from lg_blog
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from lg_blog
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="me.lgblog.pojo.LgBlogExample" >
+    delete from lg_blog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="me.lgblog.pojo.LgBlog" >
+    insert into lg_blog (id, blog_title, blog_author, 
+      blog_picture, blog_type, blog_desc, 
+      blog_createTime, blog_reply_count, blog_upvote_count, 
+      blog_click_count, blog_content)
+    values (#{id,jdbcType=INTEGER}, #{blogTitle,jdbcType=VARCHAR}, #{blogAuthor,jdbcType=VARCHAR}, 
+      #{blogPicture,jdbcType=VARCHAR}, #{blogType,jdbcType=VARCHAR}, #{blogDesc,jdbcType=VARCHAR}, 
+      #{blogCreatetime,jdbcType=TIMESTAMP}, #{blogReplyCount,jdbcType=INTEGER}, #{blogUpvoteCount,jdbcType=INTEGER}, 
+      #{blogClickCount,jdbcType=INTEGER}, #{blogContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="me.lgblog.pojo.LgBlog" >
+    insert into lg_blog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="blogTitle != null" >
+        blog_title,
+      </if>
+      <if test="blogAuthor != null" >
+        blog_author,
+      </if>
+      <if test="blogPicture != null" >
+        blog_picture,
+      </if>
+      <if test="blogType != null" >
+        blog_type,
+      </if>
+      <if test="blogDesc != null" >
+        blog_desc,
+      </if>
+      <if test="blogCreatetime != null" >
+        blog_createTime,
+      </if>
+      <if test="blogReplyCount != null" >
+        blog_reply_count,
+      </if>
+      <if test="blogUpvoteCount != null" >
+        blog_upvote_count,
+      </if>
+      <if test="blogClickCount != null" >
+        blog_click_count,
+      </if>
+      <if test="blogContent != null" >
+        blog_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="blogTitle != null" >
+        #{blogTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="blogAuthor != null" >
+        #{blogAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="blogPicture != null" >
+        #{blogPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="blogType != null" >
+        #{blogType,jdbcType=VARCHAR},
+      </if>
+      <if test="blogDesc != null" >
+        #{blogDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="blogCreatetime != null" >
+        #{blogCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blogReplyCount != null" >
+        #{blogReplyCount,jdbcType=INTEGER},
+      </if>
+      <if test="blogUpvoteCount != null" >
+        #{blogUpvoteCount,jdbcType=INTEGER},
+      </if>
+      <if test="blogClickCount != null" >
+        #{blogClickCount,jdbcType=INTEGER},
+      </if>
+      <if test="blogContent != null" >
+        #{blogContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="me.lgblog.pojo.LgBlogExample" resultType="java.lang.Integer" >
+    select count(*) from lg_blog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update lg_blog
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.blogTitle != null" >
+        blog_title = #{record.blogTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogAuthor != null" >
+        blog_author = #{record.blogAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogPicture != null" >
+        blog_picture = #{record.blogPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogType != null" >
+        blog_type = #{record.blogType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogDesc != null" >
+        blog_desc = #{record.blogDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogCreatetime != null" >
+        blog_createTime = #{record.blogCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.blogReplyCount != null" >
+        blog_reply_count = #{record.blogReplyCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.blogUpvoteCount != null" >
+        blog_upvote_count = #{record.blogUpvoteCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.blogClickCount != null" >
+        blog_click_count = #{record.blogClickCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.blogContent != null" >
+        blog_content = #{record.blogContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update lg_blog
+    set id = #{record.id,jdbcType=INTEGER},
+      blog_title = #{record.blogTitle,jdbcType=VARCHAR},
+      blog_author = #{record.blogAuthor,jdbcType=VARCHAR},
+      blog_picture = #{record.blogPicture,jdbcType=VARCHAR},
+      blog_type = #{record.blogType,jdbcType=VARCHAR},
+      blog_desc = #{record.blogDesc,jdbcType=VARCHAR},
+      blog_createTime = #{record.blogCreatetime,jdbcType=TIMESTAMP},
+      blog_reply_count = #{record.blogReplyCount,jdbcType=INTEGER},
+      blog_upvote_count = #{record.blogUpvoteCount,jdbcType=INTEGER},
+      blog_click_count = #{record.blogClickCount,jdbcType=INTEGER},
+      blog_content = #{record.blogContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update lg_blog
+    set id = #{record.id,jdbcType=INTEGER},
+      blog_title = #{record.blogTitle,jdbcType=VARCHAR},
+      blog_author = #{record.blogAuthor,jdbcType=VARCHAR},
+      blog_picture = #{record.blogPicture,jdbcType=VARCHAR},
+      blog_type = #{record.blogType,jdbcType=VARCHAR},
+      blog_desc = #{record.blogDesc,jdbcType=VARCHAR},
+      blog_createTime = #{record.blogCreatetime,jdbcType=TIMESTAMP},
+      blog_reply_count = #{record.blogReplyCount,jdbcType=INTEGER},
+      blog_upvote_count = #{record.blogUpvoteCount,jdbcType=INTEGER},
+      blog_click_count = #{record.blogClickCount,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="me.lgblog.pojo.LgBlog" >
+    update lg_blog
+    <set >
+      <if test="blogTitle != null" >
+        blog_title = #{blogTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="blogAuthor != null" >
+        blog_author = #{blogAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="blogPicture != null" >
+        blog_picture = #{blogPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="blogType != null" >
+        blog_type = #{blogType,jdbcType=VARCHAR},
+      </if>
+      <if test="blogDesc != null" >
+        blog_desc = #{blogDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="blogCreatetime != null" >
+        blog_createTime = #{blogCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blogReplyCount != null" >
+        blog_reply_count = #{blogReplyCount,jdbcType=INTEGER},
+      </if>
+      <if test="blogUpvoteCount != null" >
+        blog_upvote_count = #{blogUpvoteCount,jdbcType=INTEGER},
+      </if>
+      <if test="blogClickCount != null" >
+        blog_click_count = #{blogClickCount,jdbcType=INTEGER},
+      </if>
+      <if test="blogContent != null" >
+        blog_content = #{blogContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="me.lgblog.pojo.LgBlog" >
+    update lg_blog
+    set blog_title = #{blogTitle,jdbcType=VARCHAR},
+      blog_author = #{blogAuthor,jdbcType=VARCHAR},
+      blog_picture = #{blogPicture,jdbcType=VARCHAR},
+      blog_type = #{blogType,jdbcType=VARCHAR},
+      blog_desc = #{blogDesc,jdbcType=VARCHAR},
+      blog_createTime = #{blogCreatetime,jdbcType=TIMESTAMP},
+      blog_reply_count = #{blogReplyCount,jdbcType=INTEGER},
+      blog_upvote_count = #{blogUpvoteCount,jdbcType=INTEGER},
+      blog_click_count = #{blogClickCount,jdbcType=INTEGER},
+      blog_content = #{blogContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="me.lgblog.pojo.LgBlog" >
+    update lg_blog
+    set blog_title = #{blogTitle,jdbcType=VARCHAR},
+      blog_author = #{blogAuthor,jdbcType=VARCHAR},
+      blog_picture = #{blogPicture,jdbcType=VARCHAR},
+      blog_type = #{blogType,jdbcType=VARCHAR},
+      blog_desc = #{blogDesc,jdbcType=VARCHAR},
+      blog_createTime = #{blogCreatetime,jdbcType=TIMESTAMP},
+      blog_reply_count = #{blogReplyCount,jdbcType=INTEGER},
+      blog_upvote_count = #{blogUpvoteCount,jdbcType=INTEGER},
+      blog_click_count = #{blogClickCount,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

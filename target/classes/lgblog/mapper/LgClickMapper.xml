@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="me.lgblog.mapper.LgClickMapper" >
+  <resultMap id="BaseResultMap" type="me.lgblog.pojo.LgClick" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="blogId" property="blogid" jdbcType="INTEGER" />
+    <result column="click_ip" property="clickIp" jdbcType="VARCHAR" />
+    <result column="click_time" property="clickTime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, blogId, click_ip, click_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="me.lgblog.pojo.LgClickExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from lg_click
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from lg_click
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from lg_click
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="me.lgblog.pojo.LgClickExample" >
+    delete from lg_click
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="me.lgblog.pojo.LgClick" >
+    insert into lg_click (id, blogId, click_ip, 
+      click_time)
+    values (#{id,jdbcType=INTEGER}, #{blogid,jdbcType=INTEGER}, #{clickIp,jdbcType=VARCHAR}, 
+      #{clickTime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="me.lgblog.pojo.LgClick" >
+    insert into lg_click
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="blogid != null" >
+        blogId,
+      </if>
+      <if test="clickIp != null" >
+        click_ip,
+      </if>
+      <if test="clickTime != null" >
+        click_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="blogid != null" >
+        #{blogid,jdbcType=INTEGER},
+      </if>
+      <if test="clickIp != null" >
+        #{clickIp,jdbcType=VARCHAR},
+      </if>
+      <if test="clickTime != null" >
+        #{clickTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="me.lgblog.pojo.LgClickExample" resultType="java.lang.Integer" >
+    select count(*) from lg_click
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update lg_click
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.blogid != null" >
+        blogId = #{record.blogid,jdbcType=INTEGER},
+      </if>
+      <if test="record.clickIp != null" >
+        click_ip = #{record.clickIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clickTime != null" >
+        click_time = #{record.clickTime,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update lg_click
+    set id = #{record.id,jdbcType=INTEGER},
+      blogId = #{record.blogid,jdbcType=INTEGER},
+      click_ip = #{record.clickIp,jdbcType=VARCHAR},
+      click_time = #{record.clickTime,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="me.lgblog.pojo.LgClick" >
+    update lg_click
+    <set >
+      <if test="blogid != null" >
+        blogId = #{blogid,jdbcType=INTEGER},
+      </if>
+      <if test="clickIp != null" >
+        click_ip = #{clickIp,jdbcType=VARCHAR},
+      </if>
+      <if test="clickTime != null" >
+        click_time = #{clickTime,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="me.lgblog.pojo.LgClick" >
+    update lg_click
+    set blogId = #{blogid,jdbcType=INTEGER},
+      click_ip = #{clickIp,jdbcType=VARCHAR},
+      click_time = #{clickTime,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

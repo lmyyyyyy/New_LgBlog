@@ -1,0 +1,16 @@
+#gotop{
+    display: block;
+    background-color: #fff;
+    border-radius: 5px;
+    position: fixed;
+    width: 45px;
+    height: 45px;
+    right: 30px;
+    text-align: center;
+    font-size: 2rem;
+    color: #47c2dc;
+    border-bottom: 0;
+    z-index: 11;
+    transition: all .5s ease 0s;
+    right:30px;bottom:100px;display:none;
+}

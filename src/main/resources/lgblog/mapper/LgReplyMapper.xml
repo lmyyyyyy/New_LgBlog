@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="me.lgblog.mapper.LgReplyMapper" >
+  <resultMap id="BaseResultMap" type="me.lgblog.pojo.LgReply" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="reply_userName" property="replyUsername" jdbcType="VARCHAR" />
+    <result column="reply_email" property="replyEmail" jdbcType="VARCHAR" />
+    <result column="reply_website" property="replyWebsite" jdbcType="VARCHAR" />
+    <result column="reply_createTime" property="replyCreatetime" jdbcType="TIMESTAMP" />
+    <result column="lg_blog_id" property="lgBlogId" jdbcType="INTEGER" />
+    <result column="reply_ip" property="replyIp" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="me.lgblog.pojo.LgReply" extends="BaseResultMap" >
+    <result column="reply_content" property="replyContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, reply_userName, reply_email, reply_website, reply_createTime, lg_blog_id, reply_ip
+  </sql>
+  <sql id="Blob_Column_List" >
+    reply_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="me.lgblog.pojo.LgReplyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from lg_reply
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="me.lgblog.pojo.LgReplyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from lg_reply
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from lg_reply
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from lg_reply
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="me.lgblog.pojo.LgReplyExample" >
+    delete from lg_reply
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="me.lgblog.pojo.LgReply" >
+    insert into lg_reply (id, reply_userName, reply_email, 
+      reply_website, reply_createTime, lg_blog_id, 
+      reply_ip, reply_content)
+    values (#{id,jdbcType=INTEGER}, #{replyUsername,jdbcType=VARCHAR}, #{replyEmail,jdbcType=VARCHAR}, 
+      #{replyWebsite,jdbcType=VARCHAR}, #{replyCreatetime,jdbcType=TIMESTAMP}, #{lgBlogId,jdbcType=INTEGER}, 
+      #{replyIp,jdbcType=VARCHAR}, #{replyContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="me.lgblog.pojo.LgReply" >
+    insert into lg_reply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="replyUsername != null" >
+        reply_userName,
+      </if>
+      <if test="replyEmail != null" >
+        reply_email,
+      </if>
+      <if test="replyWebsite != null" >
+        reply_website,
+      </if>
+      <if test="replyCreatetime != null" >
+        reply_createTime,
+      </if>
+      <if test="lgBlogId != null" >
+        lg_blog_id,
+      </if>
+      <if test="replyIp != null" >
+        reply_ip,
+      </if>
+      <if test="replyContent != null" >
+        reply_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="replyUsername != null" >
+        #{replyUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="replyEmail != null" >
+        #{replyEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="replyWebsite != null" >
+        #{replyWebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="replyCreatetime != null" >
+        #{replyCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lgBlogId != null" >
+        #{lgBlogId,jdbcType=INTEGER},
+      </if>
+      <if test="replyIp != null" >
+        #{replyIp,jdbcType=VARCHAR},
+      </if>
+      <if test="replyContent != null" >
+        #{replyContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="me.lgblog.pojo.LgReplyExample" resultType="java.lang.Integer" >
+    select count(*) from lg_reply
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update lg_reply
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.replyUsername != null" >
+        reply_userName = #{record.replyUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyEmail != null" >
+        reply_email = #{record.replyEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyWebsite != null" >
+        reply_website = #{record.replyWebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyCreatetime != null" >
+        reply_createTime = #{record.replyCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lgBlogId != null" >
+        lg_blog_id = #{record.lgBlogId,jdbcType=INTEGER},
+      </if>
+      <if test="record.replyIp != null" >
+        reply_ip = #{record.replyIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyContent != null" >
+        reply_content = #{record.replyContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update lg_reply
+    set id = #{record.id,jdbcType=INTEGER},
+      reply_userName = #{record.replyUsername,jdbcType=VARCHAR},
+      reply_email = #{record.replyEmail,jdbcType=VARCHAR},
+      reply_website = #{record.replyWebsite,jdbcType=VARCHAR},
+      reply_createTime = #{record.replyCreatetime,jdbcType=TIMESTAMP},
+      lg_blog_id = #{record.lgBlogId,jdbcType=INTEGER},
+      reply_ip = #{record.replyIp,jdbcType=VARCHAR},
+      reply_content = #{record.replyContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update lg_reply
+    set id = #{record.id,jdbcType=INTEGER},
+      reply_userName = #{record.replyUsername,jdbcType=VARCHAR},
+      reply_email = #{record.replyEmail,jdbcType=VARCHAR},
+      reply_website = #{record.replyWebsite,jdbcType=VARCHAR},
+      reply_createTime = #{record.replyCreatetime,jdbcType=TIMESTAMP},
+      lg_blog_id = #{record.lgBlogId,jdbcType=INTEGER},
+      reply_ip = #{record.replyIp,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="me.lgblog.pojo.LgReply" >
+    update lg_reply
+    <set >
+      <if test="replyUsername != null" >
+        reply_userName = #{replyUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="replyEmail != null" >
+        reply_email = #{replyEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="replyWebsite != null" >
+        reply_website = #{replyWebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="replyCreatetime != null" >
+        reply_createTime = #{replyCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lgBlogId != null" >
+        lg_blog_id = #{lgBlogId,jdbcType=INTEGER},
+      </if>
+      <if test="replyIp != null" >
+        reply_ip = #{replyIp,jdbcType=VARCHAR},
+      </if>
+      <if test="replyContent != null" >
+        reply_content = #{replyContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="me.lgblog.pojo.LgReply" >
+    update lg_reply
+    set reply_userName = #{replyUsername,jdbcType=VARCHAR},
+      reply_email = #{replyEmail,jdbcType=VARCHAR},
+      reply_website = #{replyWebsite,jdbcType=VARCHAR},
+      reply_createTime = #{replyCreatetime,jdbcType=TIMESTAMP},
+      lg_blog_id = #{lgBlogId,jdbcType=INTEGER},
+      reply_ip = #{replyIp,jdbcType=VARCHAR},
+      reply_content = #{replyContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="me.lgblog.pojo.LgReply" >
+    update lg_reply
+    set reply_userName = #{replyUsername,jdbcType=VARCHAR},
+      reply_email = #{replyEmail,jdbcType=VARCHAR},
+      reply_website = #{replyWebsite,jdbcType=VARCHAR},
+      reply_createTime = #{replyCreatetime,jdbcType=TIMESTAMP},
+      lg_blog_id = #{lgBlogId,jdbcType=INTEGER},
+      reply_ip = #{replyIp,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
